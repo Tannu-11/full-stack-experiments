@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SVG Drawing Tool</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .toolbar {
+      margin: 10px;
+    }
+
+    svg {
+      border: 2px solid #333;
+      background: white;
+      width: 90vw;
+      height: 70vh;
+      cursor: crosshair;
+    }
+
+    button, input {
+      padding: 6px 10px;
+      margin-right: 5px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="toolbar">
+    <input type="color" id="colorPicker">
+    <button onclick="undo()">Undo</button>
+  </div>
+
+  <svg id="canvas"></svg>
+
+  <script>
+    const svg = document.getElementById("canvas");
+    const colorPicker = document.getElementById("colorPicker");
+
+    let drawing = false;
+    let currentPath;
+    let paths = [];
+
+    svg.addEventListener("mousedown", (e) => {
+      drawing = true;
+
+      currentPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      currentPath.setAttribute("stroke", colorPicker.value);
+      currentPath.setAttribute("stroke-width", "3");
+      currentPath.setAttribute("fill", "none");
+
+      const startX = e.offsetX;
+      const startY = e.offsetY;
+      currentPath.setAttribute("d", `M ${startX} ${startY}`);
+
+      svg.appendChild(currentPath);
+      paths.push(currentPath);
+    });
+
+    svg.addEventListener("mousemove", (e) => {
+      if (!drawing) return;
+
+      const d = currentPath.getAttribute("d");
+      currentPath.setAttribute("d", d + ` L ${e.offsetX} ${e.offsetY}`);
+    });
+
+    svg.addEventListener("mouseup", () => {
+      drawing = false;
+    });
+
+    function undo() {
+      if (paths.length > 0) {
+        const lastPath = paths.pop();
+        svg.removeChild(lastPath);
+      }
+    }
+  </script>
+
+</body>
+</html>

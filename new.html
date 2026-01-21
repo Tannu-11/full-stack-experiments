@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Learning CSS</title>
+
+    <style>
+        body {
+            background-color: #e8b9d0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background-color: white;
+            padding: 30px 40px;
+            border-radius: 12px;
+            width: 350px;
+            text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+
+        .name {
+            color: #000000;
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .section {
+            color: #b16379;
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .line {
+            width: 60%;
+            height: 1px;
+            background-color: #ddd;
+            margin: 15px auto;
+        }
+
+        .uid {
+            color: #b16379;
+            font-size: 18px;
+            background-color: #f0f1f7;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        .about {
+            font-size: 14px;
+            color: #555;
+            margin: 15px 0;
+        }
+
+        .skills span {
+            display: inline-block;
+            background-color: #f3dce6;
+            color: #333;
+            padding: 6px 10px;
+            margin: 4px;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        button {
+            margin-top: 18px;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            background-color: #b16379;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #9e4f65;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+
+        <!-- Profile Image -->
+        <img src="image.jpg" alt="Profile Photo">
+
+        <!-- Name & Section -->
+        <div class="name">Tannu</div>
+        <div class="section">BE CSE (AIML)</div>
+
+        <!-- Divider -->
+        <div class="line"></div>
+
+        <!-- UID -->
+        <div class="uid">UID: 24BAI70057</div>
+
+        <!-- About -->
+        <div class="about">
+            I am a Computer Science student learning HTML, CSS, and programming.
+            Passionate about building clean and simple web pages.
+        </div>
+
+        <!-- Skills -->
+        <div class="skills">
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>C</span>
+            <span>C++</span>
+        </div>
+
+        <!-- Button -->
+        <button>Contact Me</button>
+
+    </div>
+
+</body>
+</html>
