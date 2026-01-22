@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard</title>
+<style>
+    :root {
+        --bg-color: #f0f2f5;
+        --card-bg: #ffffff;
+        --text-color: #333333;
+        --header-bg: #007bff;
+        --header-text: #ffffff;
+    }
+
+    [data-theme="dark"] {
+        --bg-color: #1e1e2f;
+        --card-bg: #2c2c3c;
+        --text-color: #f0f0f0;
+        --header-bg: #0d6efd;
+        --header-text: #ffffff;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        min-height: 100vh;
+        display: grid;
+        grid-template-areas: 
+            "header header"
+            "sidebar main";
+        grid-template-columns: 250px 1fr;
+        grid-template-rows: 60px 1fr;
+        transition: background 0.3s, color 0.3s;
+    }
+
+    header {
+        grid-area: header;
+        background-color: var(--header-bg);
+        color: var(--header-text);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+        font-size: 20px;
+        transition: background 0.3s, color 0.3s;
+    }
+
+    .sidebar {
+        grid-area: sidebar;
+        background-color: var(--card-bg);
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        transition: background 0.3s, color 0.3s;
+    }
+
+    .sidebar button {
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: var(--header-bg);
+        color: var(--header-text);
+        cursor: pointer;
+        transition: background 0.3s, color 0.3s;
+    }
+
+    main {
+        grid-area: main;
+        padding: 20px;
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .card {
+        background-color: var(--card-bg);
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        text-align: center;
+        font-weight: bold;
+        transition: background 0.3s, color 0.3s;
+    }
+
+    @media (max-width: 768px) {
+        body {
+            grid-template-areas:
+                "header"
+                "main"
+                "sidebar";
+            grid-template-columns: 1fr;
+            grid-template-rows: 60px auto auto;
+        }
+
+        .sidebar {
+            flex-direction: row;
+            justify-content: space-around;
+        }
+    }
+</style>
+</head>
+<body>
+
+<header>
+    Admin Dashboard
+    <button id="themeToggle">Toggle Theme</button>
+</header>
+
+<div class="sidebar">
+    <button>Users</button>
+    <button>Reports</button>
+    <button>Settings</button>
+</div>
+
+<main>
+    <div class="card">Total Users: 120</div>
+    <div class="card">Active Sessions: 45</div>
+    <div class="card">Revenue: $5,400</div>
+    <div class="card">New Signups: 8</div>
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const toggle = document.getElementById("themeToggle")
+        const savedTheme = localStorage.getItem("theme") || "light"
+        document.body.setAttribute("data-theme", savedTheme)
+
+        toggle.addEventListener("click", () => {
+            const current = document.body.getAttribute("data-theme")
+            const newTheme = current === "light" ? "dark" : "light"
+            document.body.setAttribute("data-theme", newTheme)
+            localStorage.setItem("theme", newTheme)
+        })
+    })
+</script>
+
+</body>
+</html>

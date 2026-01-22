@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SVG Drawing Tool</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f0f2f5;
+    height: 100vh;
+  }
+
+  header {
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    text-align: center;
+    font-size: 20px;
+  }
+
+  .toolbar {
+    margin: 10px 0;
+    display: flex;
+    gap: 10px;
+  }
+
+  .toolbar input, .toolbar button {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
+
+  svg {
+    border: 2px solid #ccc;
+    background: white;
+    width: 90vw;
+    height: 70vh;
+    touch-action: none;
+  }
+
+  button:hover {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+</style>
+</head>
+<body>
+
+<header>SVG Drawing Tool</header>
+
+<div class="toolbar">
+  <input type="color" id="colorPicker" value="#007bff">
+  <button id="undoBtn">Undo</button>
+  <button id="clearBtn">Clear</button>
+</div>
+
+<svg id="canvas"></svg>
+
+<script>
+const svg = document.getElementById('canvas');
+const colorPicker = document.getElementById('colorPicker');
+const undoBtn = document.getElementById('undoBtn');
+const clearBtn = document.getElementById('clearBtn');
+
+let isDrawing = false;
+let lastPoint = null;
+let elements = [];
+
+svg.addEventListener('mousedown', (e) => {
+  isDrawing = true;
+  const pt = getMousePosition(e);
+  lastPoint = pt;
+});
+
+svg.addEventListener('mousemove', (e) => {
+  if (!isDrawing) return;
+  const pt = getMousePosition(e);
+  drawLine(lastPoint, pt, colorPicker.value);
+  lastPoint = pt;
+});
+
+svg.addEventListener('mouseup', () => {
+  isDrawing = false;
+  lastPoint = null;
+});
+
+svg.addEventListener('mouseleave', () => {
+  isDrawing = false;
+  lastPoint = null;
+});
+
+function getMousePosition(e) {
+  const rect = svg.getBoundingClientRect();
+  return {
+    x: e.clientX - rect.left,
+    y: e.clientY - rect.top
+  };
+}
+
+function drawLine(start, end, color) {
+  const line = document.createElementNS("http://www.w3.org/2000/svg","line");
+  line.setAttribute("x1", start.x);
+  line.setAttribute("y1", start.y);
+  line.setAttribute("x2", end.x);
+  line.setAttribute("y2", end.y);
+  line.setAttribute("stroke", color);
+  line.setAttribute("stroke-width", 2);
+  line.setAttribute("stroke-linecap", "round");
+  svg.appendChild(line);
+  elements.push(line);
+}
+
+undoBtn.addEventListener('click', () => {
+  if (elements.length > 0) {
+    const last = elements.pop();
+    svg.removeChild(last);
+  }
+});
+
+clearBtn.addEventListener('click', () => {
+  elements.forEach(el => svg.removeChild(el));
+  elements = [];
+});
+</script>
+
+</body>
+</html>

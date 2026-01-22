@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banking UI</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #eef2f7;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .bank {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 420px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .balance {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        background: #007bff;
+        color: white;
+        border-radius: 8px;
+        font-size: 18px;
+    }
+
+    input {
+        padding: 10px;
+        font-size: 15px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        width: 100%;
+    }
+
+    .actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    button {
+        flex: 1;
+        padding: 12px;
+        font-size: 15px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        color: white;
+    }
+
+    .deposit {
+        background: #28a745;
+    }
+
+    .withdraw {
+        background: #dc3545;
+    }
+
+    .message {
+        text-align: center;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    @media (max-width: 480px) {
+        .actions {
+            flex-direction: column;
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="bank">
+    <div class="balance">
+        <span>Balance</span>
+        <span id="balance">₹1000</span>
+    </div>
+
+    <input type="number" id="amount" placeholder="Enter amount" min="1">
+
+    <div class="actions">
+        <button class="deposit" onclick="deposit()">Deposit</button>
+        <button class="withdraw" onclick="withdraw()">Withdraw</button>
+    </div>
+
+    <div class="message" id="message"></div>
+</div>
+
+<script>
+    let balance = 1000
+
+    function deposit() {
+        const amt = Number(amount.value)
+        if (amt <= 0) {
+            message.textContent = "Enter a valid amount"
+            message.style.color = "red"
+            return
+        }
+        balance += amt
+        update("Deposit successful", "green")
+    }
+
+    function withdraw() {
+        const amt = Number(amount.value)
+        if (amt <= 0) {
+            update("Enter a valid amount", "red")
+            return
+        }
+        if (amt > balance) {
+            update("Insufficient balance", "red")
+            return
+        }
+        balance -= amt
+        update("Withdrawal successful", "green")
+    }
+
+    function update(text, color) {
+        balanceDisplay()
+        message.textContent = text
+        message.style.color = color
+        amount.value = ""
+    }
+
+    function balanceDisplay() {
+        document.getElementById("balance").textContent = `₹${balance}`
+    }
+</script>
+
+</body>
+</html>

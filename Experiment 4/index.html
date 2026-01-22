@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Character Counter</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .container {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  textarea {
+    width: 100%;
+    height: 120px;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    resize: none;
+    transition: border 0.3s;
+  }
+
+  textarea:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+
+  .counter {
+    text-align: right;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+</style>
+</head>
+<body>
+
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<script type="text/babel">
+  const { useState } = React;
+
+  function CharCounter() {
+    const [text, setText] = useState("");
+    const maxChars = 200;
+
+    const handleChange = (e) => {
+      setText(e.target.value);
+    };
+
+    const charsLeft = maxChars - text.length;
+    const charColor = charsLeft <= 20 ? "red" : charsLeft <= 50 ? "orange" : "green";
+
+    return (
+      <div className="container">
+        <h2>Live Character Counter</h2>
+        <textarea
+          value={text}
+          onChange={handleChange}
+          placeholder="Type something..."
+          maxLength={maxChars}
+        ></textarea>
+        <div className="counter" style={{ color: charColor }}>
+          {charsLeft} characters left
+        </div>
+      </div>
+    );
+  }
+
+  const root = ReactDOM.createRoot(document.getElementById("root"));
+  root.render(<CharCounter />);
+</script>
+
+</body>
+</html>
